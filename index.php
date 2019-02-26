@@ -16,7 +16,7 @@ and open the template in the editor.
             var placar;
             var indo;
             var indop2;
-            //var bolas;
+            var bolas;
             
             function carregar(){
                 
@@ -24,8 +24,10 @@ and open the template in the editor.
                 posicoes = [0, 60, 120, 180, 240, 300];
                 indo = [true,true,true,true,true, true];
                 indop2 = [true,true,true,true,true, true];
-                
-               for ( var i = 0 ; i<6 ;i++){
+                var bola = document.getElementById("bola0");
+                bolas = [bola, bola, bola, bola, bola, bola];
+                for ( var i = 0 ; i<6 ;i++){
+                    bolas[i] = document.getElementById("bola" + i);
                     addBola(i);
                     console.log("bola " + i + " adicionada");
                 }
@@ -34,31 +36,32 @@ and open the template in the editor.
             }
             
             function addBola(index){
-                var bola = document.createElement("div");
+                //var bola = document.createElement("div");
                 console.log("bola " + index + " adicionada");
-                bola.setAttribute("class","bola");
+                //bola.setAttribute("class","bola");
                 
                 //p1 = posicoes[Math.floor(Math.random() * 6)];
                 p1 = posicoes[index];
                 p2 = 500;
-                bola.setAttribute("style", "left: "+p1+"px; top: "+p2+"px");
-                bola.setAttribute("onmousedown","estourar(this, "+index+") ");
-                document.body.appendChild(bola);
+                bolas[index].setAttribute("style", "display: block; left: "+p1+"px; top: "+p2+"px");
+                bolas[index].setAttribute("onmousedown","estourar(this, "+index+") ");
+                //document.body.appendChild(bola);
                 //setInterval(function(){up(spaceship);},10);
-                setInterval(function (){movimentarBolas(bola, index);}, 30);
+                setInterval(function (){movimentarBolas(bolas[index], index);}, 100);
             }
             
             function estourar(bola, index){
-                p1 = parseInt(bola.style.left);
-                p2 = parseInt(bola.style.top);
+                //p1 = parseInt(bola.style.left);
+                //p2 = parseInt(bola.style.top);
                 
                 document.getElementById('player').play()
                 console.log("bola " + index + " removida");
                 indo[index] = true;
                 indop2[index] = true;
-                document.body.removeChild(bola);
-                p1 = posicoes[index];
-                p2 = 500;
+                bola.setAttribute("style", "display: none; left: "+p1+"px; top: "+p2+"px");
+                //document.body.removeChild(bola);
+                //p1 = posicoes[index];
+                //p2 = 500;
                 addBola(index);
                 placar();
             }
@@ -88,17 +91,18 @@ and open the template in the editor.
                 }
                 if (indo[index]){
                     p1 += 10;
-                    //console.log("posicao p1 " + p1);
+                    console.log(index + "posicao p1 " + p1);
                     if ( p1 >= 450){
                         indo[index] = false;
                     }
                 } else {
                     p1 -= 10;
+                    console.log(index + "posicao p1 " + p1);
                     if ( p1 <=0 ){
                         indo[index] = true;
                     }
                 }
-                bola.setAttribute("style", "left: "+p1+"px; top: "+p2+"px");
+                bola.setAttribute("style", "display: block; left: "+p1+"px; top: "+p2+"px");
             }
         </script>
         <style type="text/css">
@@ -108,7 +112,7 @@ and open the template in the editor.
                 background-color: #f00;
                 border-radius: 25px;
                 position: absolute;
-                
+                display: none;
             }
             .placar{
                 height: 200px;
@@ -145,5 +149,11 @@ and open the template in the editor.
             <source src="js/4.mp3" type="audio/mpeg"/>
         </audio>
         <div class="placar" id="placar">0</div>
+        <div id="bola0" class="bola"></div>
+        <div id="bola1" class="bola"></div>
+        <div id="bola2" class="bola"></div>
+        <div id="bola3" class="bola"></div>
+        <div id="bola4" class="bola"></div>
+        <div id="bola5" class="bola"></div>
     </body>
 </html>
